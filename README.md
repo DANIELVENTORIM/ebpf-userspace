@@ -1,4 +1,4 @@
-# 🛡️ Redes Programáveis, Laboratório XDP/eBPF com Containerlab
+# 🛡️ Laboratório XDP/eBPF com Containerlab
 
 > Laboratório prático de **filtragem de pacotes em velocidade de linha** usando **eBPF/XDP** em um ambiente de rede virtualizado com **Containerlab**.
 
@@ -11,7 +11,7 @@
 
 ## 📖 Visão Geral
 
-Este laboratório demonstra um dos recursos mais poderosos do kernel Linux: o **XDP (eXpress Data Path)**. Aqui é anexado um pequeno programa eBPF na interface de rede, que descarta pacotes **antes que eles cheguem à pilha de rede**, tornando a filtragem praticamente "gratuita" em termos de CPU.
+Este laboratório demonstra um recurso muito poderoso do kernel Linux: o **XDP (eXpress Data Path)**. Aqui é anexado um pequeno programa eBPF na interface de rede, que descarta pacotes **antes mesmo que eles cheguem à pilha de rede**, tornando a filtragem praticamente "gratuita" em termos de CPU.
 
 **O que este laboratório demonstra:**
 - Compilação de um programa eBPF em C para bytecode BPF usando Docker como ambiente de build.
@@ -19,10 +19,10 @@ Este laboratório demonstra um dos recursos mais poderosos do kernel Linux: o **
 - Carregamento de um programa XDP em uma interface de rede com `bpftool`.
 - Bloqueio de tráfego ICMP (ping) em velocidade de linha.
 - Leitura de contadores de pacotes descartados a partir de um **BPF Map** em tempo real.
-
+- O laboratório disponibiliza um script (ativation-test.md) para testar o deploy e comparar o desempenho do XDP com o iptables.
 ---
 
-## 🗺️ Topologia
+## Topologia
 
 ```
 ┌─────────────────────────────────────────┐
@@ -35,6 +35,9 @@ Este laboratório demonstra um dos recursos mais poderosos do kernel Linux: o **
 │    (emissor)            (filtro XDP) 🛡️ │
 └─────────────────────────────────────────┘
 ```
+- node-a: Máquina Linux usando a imagem nicolaka/netshoot (distro focada em ferramentas de rede).
+- node-b: Máquina Linux nicolaka/netshoot com um bind, montando o arquivo xdp_drop.o do host diretamente para a raiz do container (/xdp_drop.o).
+
 
 | Nó     | Endereço IP  | Função                                      |
 |--------|-------------|---------------------------------------------|
@@ -44,6 +47,15 @@ Este laboratório demonstra um dos recursos mais poderosos do kernel Linux: o **
 ---
 
 ## 🔧 Pré-requisitos
+
+
+### 0. Requisitos do Sistema
+
+Os seguintes requisitos devem ser atendidos para que a ferramenta containerlab seja executada com sucesso (https://containerlab.dev/install/):
+
+- Um usuário com privilégios de sudo para executar o containerlab.
+
+- Um servidor Linux, pode ser WSL2 (https://learn.microsoft.com/pt-br/windows/wsl/install).
 
 ### 1. Instalar o Docker
 
@@ -68,7 +80,7 @@ containerlab version
 
 ---
 
-## 🐝 Obtendo o Laboratório
+## ⏬ Obtendo o Laboratório
 
 Clone o repositório e acesse o diretório do laboratório:
 
@@ -84,9 +96,9 @@ cd ebpf-lab
 
 ---
 
-## 🐝 Passo 1 — Compilar o Programa eBPF
+## ⚙️ Passo 1 — Compilar o Programa eBPF
 
-O script `compile.sh` usa um **container Ubuntu 22.04 como ambiente de build**, dispensando a instalação de ferramentas de compilação no host.
+O script `compile.sh` usa um **container Ubuntu 22.04 como ambiente de build**, dispensando a instalação de ferramentas de compilação no host.Isso evita que você precise instalar localmente todas as dependências de eBPF (que podem ser pesadas ou conflitar) diretamente no seu sistema host.
 
 ```bash
 # Se não estiver no diretório do lab:
@@ -140,7 +152,7 @@ Antes de ativar o filtro XDP, confirme que os nós se comunicam normalmente:
 docker exec clab-ebpf-lab-node-a ping -c 3 10.0.0.2
 ```
 
-**Resultado esperado:** `0% packet loss` ✅
+**Resultado esperado:** `0% packet loss`  
 
 ---
 
@@ -215,7 +227,7 @@ Verifique que a conectividade foi restaurada:
 sudo docker exec clab-ebpf-lab-node-a ping -c 3 10.0.0.2
 ```
 
-**Resultado esperado:** `0% packet loss` ✅
+**Resultado esperado:** `0% packet loss` 
 
 ---
 
