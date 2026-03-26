@@ -32,7 +32,7 @@ Este laboratório demonstra um recurso muito poderoso do kernel Linux: o **XDP (
 │  │  node-a  ├─────────────┤  node-b  │  │
 │  │10.0.0.1  │             │10.0.0.2  │  │
 │  └──────────┘             └──────────┘  │
-│    (emissor)            (filtro XDP) 🛡️ │
+│    (emissor)            (filtro XDP)    │
 └─────────────────────────────────────────┘
 ```
 - node-a: Máquina Linux usando a imagem nicolaka/netshoot (distro focada em ferramentas de rede).
