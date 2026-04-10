@@ -1,0 +1,11 @@
+---
+node-a:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.3
+node-b:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.2

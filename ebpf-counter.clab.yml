@@ -1,4 +1,5 @@
-name: ebpf-lab
+name: ebpf-counter
+#description: "Lab de eBPF: contador de pacotes"
 
 topology:
   nodes:
@@ -10,12 +11,14 @@ topology:
 
     node-b:
       kind: linux
-      image: nicolaka/netshoot:latest
-      # Mount the compiled object file into the node
+      image: "nicolaka/netshoot:latest"
       binds:
-        - xdp_drop.o:/xdp_drop.o
+        - ./counter.bpf.o:/counter.bpf.o:ro
       exec:
         - ip addr add 10.0.0.2/24 dev eth1
+        - apk add --no-cache libbpf
+        - apk add --no-cache bpftool
 
   links:
     - endpoints: ["node-a:eth1", "node-b:eth1"]
+

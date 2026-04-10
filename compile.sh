@@ -1,18 +1,18 @@
 #!/bin/bash
 set -e
 
-echo "Compiling eBPF program using Docker..."
+echo "Compilando programa eBPF (kernel side) usando Docker..."
 
-# Use Ubuntu as builder to ensure we have clang and libbpf headers
-# We mount the current directory to /code
+# Usa Ubuntu 22.04 como builder com clang e libbpf headers
+# Monta o diretório atual em /code dentro do container
 sudo docker run --rm -v $(pwd):/code -w /code ubuntu:22.04 /bin/bash -c "
     apt-get update && \
     apt-get install -y clang llvm libbpf-dev gcc-multilib && \
-    clang -O2 -g -target bpf -c xdp_drop.c -o xdp_drop.o
+    clang -O2 -g -target bpf -I/usr/include/x86_64-linux-gnu -c counter.bpf.c -o counter.bpf.o
 "
 
-if [ -f xdp_drop.o ]; then
-    echo "Success! xdp_drop.o created.🍻🍻🍻"
+if [ -f counter.bpf.o ]; then
+    echo "Success! counter.bpf.o created.🍻🍻🍻"
 else
     echo "Compilation failed.❌"
     exit 1
