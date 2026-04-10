@@ -12,6 +12,3 @@ counter
 repo/
 
 
-# Containerlab graph layout annotations (optional, remove to track position)
-*.annotations.json
-
