@@ -9,7 +9,7 @@
 
 ---
 
-## 📖 Visão Geral
+## Visão Geral
 
 Este laboratório demonstra um recurso muito poderoso do kernel Linux: o **XDP (eXpress Data Path)**. Aqui é anexado um pequeno programa eBPF na interface de rede, que **conta pacotes antes mesmo que eles cheguem à pilha de rede**, tornando a contagem praticamente "gratuita" em termos de CPU.
 
@@ -49,7 +49,7 @@ A grande diferença em relação ao laboratório anterior (`1_pkt_drop`) é que 
 
 ---
 
-## 🔧 Pré-requisitos
+## Pré-requisitos
 
 ### 0. Requisitos do Sistema
 
@@ -84,7 +84,7 @@ containerlab version
 
 ---
 
-## ⏬ Obtendo o Laboratório
+## Obtendo o Laboratório
 
 Clone o repositório e acesse o diretório do laboratório:
 
@@ -93,7 +93,7 @@ git clone https://github.com/DANIELVENTORIM/ebpf-lab.git
 cd ebpf-lab/2_pkt_counter
 ```
 
-> 📁 Arquivos principais:
+> Arquivos principais:
 > - `ebpf-counter.clab.yml` — Definição da topologia Containerlab
 > - `counter.bpf.c` — Código-fonte eBPF/XDP (roda no kernel)
 > - `counter.c` — Loader userspace (carrega e lê o contador)
@@ -102,7 +102,7 @@ cd ebpf-lab/2_pkt_counter
 
 ---
 
-## ⚙️ Passo 1 — Compilar os Programas
+## Passo 1 — Compilar os Programas
 
 Este laboratório tem **dois** programas para compilar:
 1. **`counter.bpf.c`** → bytecode BPF que roda no kernel (via `clang -target bpf`)
@@ -179,7 +179,7 @@ ls -lh counter counter.bpf.o
 
 ---
 
-## 🚀 Passo 2 — Deploy da Topologia
+## Passo 2 — Deploy da Topologia
 
 ```bash
 sudo containerlab deploy -t ebpf-counter.clab.yml --reconfigure
@@ -199,7 +199,7 @@ INFO[0000] Creating docker network 'clab'
 INFO[0000] Creating container 'node-a'
 INFO[0000] Creating container 'node-b'
 INFO[0000] Creating virtual wire: node-a:eth1 <--> node-b:eth1
-INFO[0001] 🎉 New containers have been created
+INFO[0001] New containers have been created
 
 ╭──────────────────────────┬──────────────────────────┬─────────┬───────────────────╮
 │           Name           │        Kind/Image        │  State  │   IPv4/6 Address  │
@@ -342,13 +342,13 @@ Volte ao **PRIMEIRO TERMINAL** onde o `counter` está rodando:
 [  5] Total:          736 | Taxa:        184 pps
 ```
 
-**✅ SUCESSO:** O programa eBPF está contando os pacotes em tempo real diretamente no kernel!
+** SUCESSO:** O programa eBPF está contando os pacotes em tempo real diretamente no kernel!
 
 > **Análise:** Com iperf3 a 1 Mbps e pacotes UDP padrão (~1400 bytes), a taxa esperada é ~89 pps. Com pacotes menores (~128 bytes), pode chegar a ~900 pps.
 
 ---
 
-## 🔍 Passo 6 — Verificação Avançada (Opcional)
+## Passo 6 — Verificação Avançada (Opcional)
 
 ### 6.1 Inspecionar o BPF Map com bpftool
 
@@ -399,7 +399,7 @@ sudo docker exec clab-ebpf-counter-node-b tcpdump -i eth1 -n -c 10
 
 ---
 
-## 🛑 Passo 7 — Desativar e Limpar
+## Passo 7 — Desativar e Limpar
 
 ### 7.1 Parar o Contador
 
@@ -453,7 +453,7 @@ sudo containerlab destroy -t ebpf-counter.clab.yml
 
 ---
 
-## 📚 Referências
+## Referências
 
 - [Documentação Oficial do eBPF](https://ebpf.io/what-is-ebpf/)
 - [Documentação do Containerlab](https://containerlab.dev/quickstart/)
