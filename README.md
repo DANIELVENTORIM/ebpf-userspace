@@ -89,8 +89,8 @@ containerlab version
 Clone o repositório e acesse o diretório do laboratório:
 
 ```bash
-git clone https://github.com/DANIELVENTORIM/ebpf-lab.git
-cd ebpf-lab/2_pkt_counter
+git clone https://github.com/DANIELVENTORIM/ebpf-userspace.git
+cd ebpf-userspace 
 ```
 
 > Arquivos principais:

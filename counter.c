@@ -69,7 +69,9 @@ int main(int argc, char **argv) {
     
     /* usando libbpf para encontrar o map e ler o valor   */
     int map_fd = bpf_object__find_map_fd_by_name(bpf_obj, "packet_counter");
-    if (map_fd < 0) { return 1; }
+    if (map_fd < 0) { 
+        return 1; 
+    }
     
     signal(SIGINT, sig_handler);
     
